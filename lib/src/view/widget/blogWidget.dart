@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:sizer/sizer.dart' as sizer;
 
 class Blogwidget extends StatelessWidget {
   final Blogmodel blog;
@@ -16,11 +17,39 @@ class Blogwidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // double getResponsiveWidth() {
+    //   double screenWidth = MediaQuery.of(context).size.width;
+    //   if (sizer.Device.screenType == sizer.ScreenType.mobile) {
+    //     return 100.w;
+    //   } else if (sizer.Device.screenType == sizer.ScreenType.tablet) {
+    //     return 50.w;
+    //   } else {
+    //     return 25.w;
+    //   }
+    // }
+
+    double getResponsiveWidth() {
+      if (sizer.Device.screenType == sizer.ScreenType.mobile) {
+        return 95.w;
+      } else if (sizer.Device.screenType == sizer.ScreenType.tablet) {
+        return 50.w;
+      } else if (sizer.Device.screenType == sizer.ScreenType.desktop) {
+        return 100.w;
+      } else {
+        return 50.w;
+      }
+    }
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       margin: EdgeInsets.only(bottom: 16),
       height: 200,
       width: double.infinity,
+      // getResponsiveWidth(),
+      // sizer.Device.screenType == sizer.ScreenType.tablet
+      //     ? 50.w
+      //     : //this is for mobile
+      //     100.w,
       child: Stack(
         children: [
           ClipRRect(
