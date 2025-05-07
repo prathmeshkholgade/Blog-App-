@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:blogapp/core/commonWidget/textLogo.dart';
 import 'package:blogapp/src/controller/blog/createblog_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,75 +27,88 @@ class CreateBlogPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              print(blogController.descriptionCatroller.text);
-              print(blogController.titleController.text);
-              print(blogController.categoryController.text);
+              blogController.uploadBlog();
             },
-            icon: Icon(Icons.upload_file),
+            icon: Icon(Icons.upload),
           ),
         ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            SizedBox(height: 10),
+      body: Obx(
+        () =>
+            blogController.isLoading.value
+                ? Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                )
+                : Container(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          blogController.getImage();
+                        },
+                        child:
+                            blogController.selectedImage.value != null
+                                ? Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  height: 150,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: ClipRRect(
+                                    child: blogController.imagePreview(),
+                                  ),
+                                  // Image.file(
+                                  // blogController.selectedImage.value!,
+                                  // ),
+                                )
+                                : Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 10),
+                                  height: 150,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                      ),
 
-            GestureDetector(
-              onTap: () {
-                blogController.getImage();
-              },
-              child: Obx(
-                () =>
-                    blogController.selectedImage.value != null
-                        ? Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          height: 150,
-                          width: size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                      SizedBox(height: 10),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        child: Form(
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: blogController.titleController,
+                                decoration: InputDecoration(hintText: "Title"),
+                              ),
+                              TextFormField(
+                                controller:
+                                    blogController.descriptionController,
+                                decoration: InputDecoration(
+                                  hintText: "Description",
+                                ),
+                              ),
+                              TextFormField(
+                                controller: blogController.categoryController,
+                                decoration: InputDecoration(
+                                  hintText: "Category",
+                                ),
+                              ),
+                            ],
                           ),
-                          child:blogController.imagePreview()
-                          // Image.file(
-                            // blogController.selectedImage.value!,
-                          // ),
-                        )
-                        : Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          height: 150,
-                          width: size.width,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Icon(Icons.add_a_photo, color: Colors.black),
                         ),
-              ),
-            ),
-
-            SizedBox(height: 10),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: blogController.titleController,
-                      decoration: InputDecoration(hintText: "Title"),
-                    ),
-                    TextFormField(
-                      controller: blogController.descriptionCatroller,
-                      decoration: InputDecoration(hintText: "Description"),
-                    ),
-                    TextFormField(
-                      controller: blogController.categoryController,
-                      decoration: InputDecoration(hintText: "Category"),
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

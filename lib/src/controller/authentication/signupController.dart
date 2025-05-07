@@ -15,13 +15,13 @@ class Signupcontroller extends GetxController {
   final FirebaseService _firebaseService = FirebaseService();
   signUp() async {
     isLoading.value = true;
-    final email = emailController.text.trim(); // get latest input
+    final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final fullName = fullNameController.text.trim();
     final number = numberController.text.trim();
-    if (email.isNotEmpty ||
-        password.isNotEmpty ||
-        fullName.isNotEmpty ||
+    if (email.isNotEmpty &&
+        password.isNotEmpty &&
+        fullName.isNotEmpty &&
         number.isNotEmpty) {
       print("$email $password $fullName $number");
       final result = await _firebaseService.signupUser(
@@ -37,7 +37,7 @@ class Signupcontroller extends GetxController {
           Get.snackbar("Error", e.toString());
         },
         (value) {
-          Get.off(HomePage());
+          Get.offAll(HomePage());
           print("value $value");
           isLoading.value = false;
           Get.snackbar(

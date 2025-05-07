@@ -1,4 +1,5 @@
 import 'package:blogapp/service/firebaseService.dart';
+import 'package:blogapp/src/controller/blog/createblog_controller.dart';
 import 'package:blogapp/src/view/home.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:get/state_manager.dart';
 class Logincontroller extends GetxController {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var blogController = Get.find<BlogController>();
   final RxBool isLoading = false.obs;
   final FirebaseService _firebaseService = FirebaseService();
   void login() async {
@@ -23,18 +25,18 @@ class Logincontroller extends GetxController {
       result.fold(
         (e) {
           print(e);
-
           Get.snackbar(
             "Login failed",
             "Email or Password is incorrect",
             snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: const Color(0xFFE57373), // Light red
+            backgroundColor: const Color(0xFFE57373),
             colorText: const Color(0xFFFFFFFF),
           );
         },
         (value) {
-          print(value);
-          Get.off(HomePage());
+          print("value $value");
+          blogController.userId.value = value.uid ?? '';
+          Get.offAll(HomePage());
           isLoading.value = false;
           Get.snackbar("success", "Login Successfully");
         },
