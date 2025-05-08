@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:sizer/sizer.dart';
 
 class UserBlog extends StatelessWidget {
   UserBlog({super.key});
@@ -22,16 +23,30 @@ class UserBlog extends StatelessWidget {
         ),
         title: TextLogo(),
       ),
-      body: Obx(
-        () => SingleChildScrollView(
-          child: Column(
-            children:
-                blogController.userBlog
-                    .map((blog) => Blogwidget(blog: blog))
-                    .toList(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(2.w),
+          child: Obx(
+            () => Wrap(
+              children:
+                  blogController.blogList
+                      .map((blog) => Blogwidget(blog: blog))
+                      .toList(),
+            ),
           ),
         ),
       ),
+
+      // body: Obx(
+      //   () => SingleChildScrollView(
+      //     child: Column(
+      //       children:
+      //           blogController.userBlog
+      //               .map((blog) => Blogwidget(blog: blog))
+      //               .toList(),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

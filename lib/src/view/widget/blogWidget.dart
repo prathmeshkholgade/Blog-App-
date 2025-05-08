@@ -17,35 +17,22 @@ class Blogwidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double getResponsiveWidth() {
-    //   double screenWidth = MediaQuery.of(context).size.width;
-    //   if (sizer.Device.screenType == sizer.ScreenType.mobile) {
-    //     return 100.w;
-    //   } else if (sizer.Device.screenType == sizer.ScreenType.tablet) {
-    //     return 50.w;
-    //   } else {
-    //     return 25.w;
-    //   }
-    // }
+    double screenWidth = MediaQuery.of(context).size.width;
+    double boxWidth;
 
-    double getResponsiveWidth() {
-      if (sizer.Device.screenType == sizer.ScreenType.mobile) {
-        return 95.w;
-      } else if (sizer.Device.screenType == sizer.ScreenType.tablet) {
-        return 50.w;
-      } else if (sizer.Device.screenType == sizer.ScreenType.desktop) {
-        return 100.w;
-      } else {
-        return 50.w;
-      }
+    if (screenWidth < 600) {
+      boxWidth = 100.w; // Mobile
+    } else if (screenWidth >= 600 && screenWidth < 1024) {
+      boxWidth = 45.w; // Tablet
+    } else {
+      boxWidth = 30.w; // Desktop
     }
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16),
       margin: EdgeInsets.only(bottom: 16),
-      height: 200,
-      width: double.infinity,
-      // getResponsiveWidth(),
+      height: 300,
+      width: boxWidth,
       // sizer.Device.screenType == sizer.ScreenType.tablet
       //     ? 50.w
       //     : //this is for mobile
@@ -57,11 +44,12 @@ class Blogwidget extends StatelessWidget {
             child: Image.network(
               blog.image,
               width: double.infinity,
+              height: 300,
               fit: BoxFit.cover,
             ),
           ),
           Container(
-            height: 200,
+            height: 300,
             decoration: BoxDecoration(
               color: Colors.black54.withAlpha(80),
               borderRadius: BorderRadius.circular(6),
